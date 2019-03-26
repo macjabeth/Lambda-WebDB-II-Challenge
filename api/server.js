@@ -8,9 +8,10 @@ const server = express();
 server.use(express.json());
 server.use(compression());
 server.use(helmet());
-
 server.use((req, res, next) => {
-  debug(`${req.method} ${req.url} - ${req.statusCode}`);
+  res.on('finish', () => {
+    debug(`${req.method} ${req.originalUrl} - ${res.statusCode} [${res.statusMessage}]`);
+  });
   next();
 });
 
