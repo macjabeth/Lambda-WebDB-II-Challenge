@@ -1,14 +1,8 @@
-const express = require('express');
-const helmet = require('helmet');
+const debug = require('debug')('server:init');
+const config = require('config');
+const server = require('./api/server');
 
-const server = express();
-
-server.use(express.json());
-server.use(helmet());
-
-// endpoints here
-
-const port = 3300;
-server.listen(port, function() {
-  console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
+const port = process.env.PORT || config.get('port');
+server.listen(port, () => {
+  debug(`Listening on PORT ${port}`);
 });
